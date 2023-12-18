@@ -1,7 +1,5 @@
 package com.aristoncaragay.myapplication;
 
-// MainActivity.java
-// MainActivity.java
 import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.view.View;
@@ -54,6 +52,9 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }, year, month, dayOfMonth);
 
+        // Set the minimum date to today
+        datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
+
         datePickerDialog.show();
     }
 
@@ -79,6 +80,9 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }, year, month, dayOfMonth);
 
+        // Set the minimum date to the selected check-in date
+        datePickerDialog.getDatePicker().setMinDate(selectedCheckInDate);
+
         datePickerDialog.show();
     }
 
@@ -96,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private String getFormattedDate(long timestamp) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MMM. dd, YYYY", Locale.getDefault());
         return dateFormat.format(new Date(timestamp));
     }
 }
