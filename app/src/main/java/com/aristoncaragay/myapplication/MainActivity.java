@@ -1,8 +1,10 @@
 package com.aristoncaragay.myapplication;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
     private long selectedCheckInDate = 0;
     private long selectedCheckOutDate = 0;
     private TextView reservationText;
+    private Button btDetails;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +27,16 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         reservationText = findViewById(R.id.reservationText);
+        btDetails = findViewById(R.id.btDetails);
+        btDetails.setVisibility(View.GONE); // Initially set to GONE
+
+        btDetails.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, Details.class);
+                startActivity(intent);
+            }
+        });
     }
 
     public void onBookNowButtonClicked(View view) {
@@ -92,6 +105,11 @@ public class MainActivity extends AppCompatActivity {
                     getFormattedDate(selectedCheckInDate) +
                     "\nCheck-out: " + getFormattedDate(selectedCheckOutDate);
             reservationText.setText(reservationMessage);
+
+            // Check both dates are selected, then show the "See Details" button
+            if (btDetails.getVisibility() == View.GONE) {
+                btDetails.setVisibility(View.VISIBLE);
+            }
         }
     }
 
@@ -100,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private String getFormattedDate(long timestamp) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("MMM. dd, YYYY", Locale.getDefault());
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MMM. dd, yyyy", Locale.getDefault());
         return dateFormat.format(new Date(timestamp));
     }
 }
